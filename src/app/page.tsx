@@ -1,11 +1,24 @@
-// src/app/page.js (or page.tsx if using TypeScript)
 import Link from "next/link";
 import { posts } from "./posts";
 import Image from "next/image";
 
+// Define types for posts
+interface Post {
+  slug: string;
+  title: string;
+  content: string;
+  date: string;
+  category: string;
+  image: string;  // Can either be URL or imported image
+}
+
+interface GroupedPosts {
+  [key: string]: Post[]; // Categorized posts by string (category)
+}
+
 const HomePage = () => {
   // Group posts by category (Next.js and Other)
-  const groupedPosts = posts.reduce((groups, post) => {
+  const groupedPosts: any = posts.reduce((groups:GroupedPosts, post:any) => {
     const { category } = post;
     if (!groups[category]) {
       groups[category] = [];
@@ -21,12 +34,12 @@ const HomePage = () => {
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-blue-900 mb-6 text-center">Next.js Blog Posts</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupedPosts["Next.js"].map((post:any) => (
+            {groupedPosts["Next.js"].map((post: Post) => (
               <div key={post.slug} className="bg-white shadow-lg rounded-lg overflow-hidden">
                 <Image
-                height={1000}
-                width={1000}
-                  src={post.image}
+                  height={400}
+                  width={600}
+                  src={post.image}  // Ensure this is a valid URL or imported image
                   alt={post.title}
                   className="w-full h-48 object-cover"
                 />
@@ -51,12 +64,12 @@ const HomePage = () => {
         <section>
           <h2 className="text-2xl font-bold text-blue-900 mb-6 text-center">Other Topics</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groupedPosts["Other"].map((post) => (
+            {groupedPosts["Other"].map((post: Post) => (
               <div key={post.slug} className="bg-white shadow-lg rounded-lg overflow-hidden">
                 <Image
-                height={1000}
-                width={1000}
-                  src={post.image}
+                  height={400}
+                  width={600}
+                  src={post.image}  // Ensure this is a valid URL or imported image
                   alt={post.title}
                   className="w-full h-48 object-cover"
                 />
